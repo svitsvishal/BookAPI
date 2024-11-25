@@ -17,12 +17,14 @@ namespace BookAPI.Controllers
             _logger= logger;
         }
 
-        
+        //api/books?filterOn=BookName&filterquery=book1
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn , [FromQuery]  string? filterQuery
+           ,[FromQuery] string? sortBy , [FromQuery] bool asc=true
+            , [FromQuery] int pageNumber =1, [FromQuery] int pageSize =10000)
         {
             _logger.LogInformation("calling Get all");
-            var books = await _repository.GetAllAsync();
+            var books = await _repository.GetAllAsync(filterOn,filterQuery,sortBy,asc, pageNumber , pageSize);
             return Ok(books);
         }
 
